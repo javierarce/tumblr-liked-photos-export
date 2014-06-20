@@ -2,8 +2,8 @@ require 'rubygems'
 require 'httparty'
 
 # Configuration
-username = "YOUR_TUMBLR_USERNAME"
-api_key  = "YOUR_TUMBLR_API_KEY"
+username = ENV["TUMBLR_USERNAME"]
+api_key  = ENV["TUMBLR_API_KEY"]
 limit    = 20
 
 url      = "http://api.tumblr.com/v2/blog/#{username}.tumblr.com/likes?api_key=#{api_key}"
