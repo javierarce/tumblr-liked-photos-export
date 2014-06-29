@@ -19,8 +19,10 @@ Export tumblr images from your liked posts
 
         export TUMBLR_USERNAME="YOUR_TUMBLR_USERNAME"  
         export TUMBLR_API_KEY="OAUTH_CONSUMER_KEY"  
+        
 5. Go to the app directory and run:  
-          ruby app.rb
+
+        ruby app.rb
  
 
 
