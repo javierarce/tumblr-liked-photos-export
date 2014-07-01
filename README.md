@@ -1,7 +1,7 @@
 tumblr-export
 =============
 
-Export tumblr images from your liked posts
+Export tumblr images from your [liked posts](https://www.tumblr.com/likes).
 
 ## How to use it
 
