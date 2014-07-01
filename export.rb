@@ -2,11 +2,13 @@ require 'rubygems'
 require 'httparty'
 
 # Configuration
-username = ENV["TUMBLR_USERNAME"]
-api_key  = ENV["TUMBLR_API_KEY"]
-limit    = 20
+username     = ENV["TUMBLR_USERNAME"]
+api_key      = ENV["TUMBLR_API_KEY"]
+image_dir    = "images" 
+limit        = 20  # number of posts requested each time
+download_num = 200 # number of posts to download
 
-url      = "http://api.tumblr.com/v2/blog/#{username}.tumblr.com/likes?api_key=#{api_key}"
+url          = "http://api.tumblr.com/v2/blog/#{username}.tumblr.com/likes?api_key=#{api_key}"
 
 def get_liked_count(url)
 
@@ -17,7 +19,7 @@ def get_liked_count(url)
 
 end
 
-def get_photos(url, limit = 0, offset = 0)
+def get_photos(url, image_dir, limit = 0, offset = 0)
 
   urls = []
 
@@ -41,7 +43,7 @@ def get_photos(url, limit = 0, offset = 0)
         uri = photo['original_size']['url']
         file = File.basename(uri)
 
-        File.open("./images/" + file, "wb") do |f| 
+        File.open("./#{image_dir}/" + file, "wb") do |f| 
           puts "   #{uri}"
           f.write HTTParty.get(uri).parsed_response
         end
@@ -56,16 +58,17 @@ def get_photos(url, limit = 0, offset = 0)
 
 end
 
-download_count = 200 # or get_liked_count(url) to download everything
+Dir.mkdir("./#{image_dir}") unless File.directory?("./#{image_dir}")
 
-Dir.mkdir("./images") unless File.directory?("./images")
+# uncomment next line to download all your liked images
+# download_num = get_liked_count(url)
 
-batchs = download_count / limit
+batchs = download_num / limit
 
 urls = []
 
-puts "Downloading \033[32m#{download_count}\033[0m posts"
+puts "Downloading \033[32m#{download_num}\033[0m posts"
 
 batchs.times do |i|
-  get_photos(url, limit, i + i*limit)
+  get_photos(url, image_dir, limit, i + i*limit)
 end
