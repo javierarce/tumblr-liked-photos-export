@@ -30,7 +30,8 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
 6. Go to the app directory and run:  
 
         ruby app.rb
- 
+
+7. Your favorite images from Tumblr will be downloaded to the `image` folder.
 
 
         
