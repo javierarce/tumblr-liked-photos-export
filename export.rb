@@ -32,6 +32,8 @@ def get_photos(url, limit = 0, offset = 0)
 
     photos = like['photos']
 
+    puts "\033[37m#{like['blog_name']}\033[0m" if photos and photos.length > 0
+
     photos.each do |photo|
 
       begin
@@ -40,7 +42,7 @@ def get_photos(url, limit = 0, offset = 0)
         file = File.basename(uri)
 
         File.open("./images/" + file, "wb") do |f| 
-          puts uri
+          puts "   #{uri}"
           f.write HTTParty.get(uri).parsed_response
         end
 
@@ -62,7 +64,7 @@ batchs = download_count / limit
 
 urls = []
 
-puts "Getting #{download_count} posts"
+puts "Downloading \033[32m#{download_count}\033[0m posts"
 
 batchs.times do |i|
   get_photos(url, limit, i + i*limit)
