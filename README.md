@@ -14,7 +14,7 @@ Export tumblr images from your [liked posts](https://www.tumblr.com/likes).
 
         https://www.tumblr.com/settings/apps
 
-3. Copy the OAuth Consumer Key of the app.  
+3. Copy the `OAuth Consumer Key` of the app.  
 4. Add two keys to your bash/zsh:  
 
         export TUMBLR_USERNAME="YOUR_TUMBLR_USERNAME"  
