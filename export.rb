@@ -51,7 +51,7 @@ class TumblrPhotoExport
     status_msg  = parsed_response['meta']['msg']
 
     if status_code != 200
-      puts status_msg
+      puts "\033[91m#{status_msg}\033[0m" 
       return
     end
 
@@ -95,21 +95,21 @@ class TumblrPhotoExport
     # uncomment next line to download all your liked images
     # download_num = get_liked_count
 
-    batchs = download_num / limit
+    batchs = @download_num / @limit
 
-    if (download_num < limit)
+    if (@download_num < @limit)
       batchs = 1
-      limit  = download_num
+      @limit  = @download_num
     end
 
     puts "Downloading \033[32m#{@download_num}\033[0m posts"
 
     batchs.times do |i|
-      result = get_photos(limit, i + i*limit) 
+      result = get_photos(@limit, i + i*@limit)
       break if !result
     end
 
-    puts "\033[32m#{"Aaaaand we're done."}\033[0m"
+    puts "\033[32m#{"Aaaaand we're done"}\033[0m"
 
   end
 
