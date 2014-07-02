@@ -97,6 +97,11 @@ class TumblrPhotoExport
 
     batchs = download_num / limit
 
+    if (download_num < limit)
+      batchs = 1
+      limit  = download_num
+    end
+
     puts "Downloading \033[32m#{@download_num}\033[0m posts"
 
     batchs.times do |i|
