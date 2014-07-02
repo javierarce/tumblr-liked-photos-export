@@ -2,73 +2,110 @@ require 'rubygems'
 require 'httparty'
 
 # Configuration
-username     = ENV["TUMBLR_USERNAME"]
 api_key      = ENV["TUMBLR_API_KEY"]
-image_dir    = "images" 
+username     = ARGV[0] || ENV["TUMBLR_USERNAME"]
+image_dir    = ARGV[1] || "images"
 limit        = 20  # number of posts requested each time
 download_num = 200 # number of posts to download
 
-url          = "http://api.tumblr.com/v2/blog/#{username}.tumblr.com/likes?api_key=#{api_key}"
+class Tumblr
 
-def get_liked_count(url)
+  attr_accessor :username, :api_key, :image_dir, :limit, :download_num, :url
 
-  response        = HTTParty.get(url + "&limit=1&offset=0")
-  parsed_response = JSON.parse(response.body)
+  def initialize(username, api_key, image_dir, limit, download_num)
 
-  return parsed_response['response']['liked_count']
+    @username     = username
+    @api_key      = api_key
+    @image_dir    = image_dir
+    @limit        = limit
+    @download_num = download_num
 
-end
+    @url          = "http://api.tumblr.com/v2/blog/#{@username}.tumblr.com/likes?api_key=#{@api_key}"
 
-def get_photos(url, image_dir, limit = 0, offset = 0)
+    create_download_dir
 
-  urls = []
+  end
 
-  response = HTTParty.get(url + "&limit=#{limit}&offset=#{offset}")
-  parsed_response = JSON.parse(response.body)
+  def create_download_dir
 
-  likes = parsed_response['response']['liked_posts']
+    Dir.mkdir("./#{@image_dir}") unless File.directory?("./#{@image_dir}")
 
-  parsed_response = JSON.parse(response.body)
+  end
 
-  likes.each do |like|
+  def get_liked_count
 
-    photos = like['photos']
+    response        = HTTParty.get(@url + "&limit=1&offset=0")
+    parsed_response = JSON.parse(response.body)
 
-    puts "\033[37m#{like['blog_name']}\033[0m" if photos and photos.length > 0
+    return parsed_response['response']['liked_count']
 
-    photos.each do |photo|
+  end
 
-      begin
+  def get_photos(limit = 0, offset = 0)
 
-        uri = photo['original_size']['url']
-        file = File.basename(uri)
+    response        = HTTParty.get(@url + "&limit=#{limit}&offset=#{offset}")
+    parsed_response = JSON.parse(response.body)
 
-        File.open("./#{image_dir}/" + file, "wb") do |f| 
-          puts "   #{uri}"
-          f.write HTTParty.get(uri).parsed_response
+    # Status of the request
+    status_code = parsed_response['meta']['status']
+    status_msg  = parsed_response['meta']['msg']
+
+    if status_code != 200
+      puts status_msg
+      return
+    end
+
+    download_likes(parsed_response['response']['liked_posts'])
+
+    return true
+
+  end
+
+  def download_likes(likes)
+
+    likes.each do |like|
+
+      photos = like['photos']
+
+      puts "\033[37m#{like['blog_name']}\033[0m" if photos and photos.length > 0
+
+      photos.each do |photo|
+
+        begin
+
+          uri = photo['original_size']['url']
+          file = File.basename(uri)
+
+          File.open("./#{@image_dir}/" + file, "wb") do |f| 
+            puts "   #{uri}"
+            f.write HTTParty.get(uri).parsed_response
+          end
+
+        rescue => e
+          puts ":( #{e}"
         end
 
-      rescue => e
-        puts ":( #{e}"
-      end
+      end if photos
+    end
 
-    end if photos
+  end
 
+  def download
+
+    # uncomment next line to download all your liked images
+    # download_num = get_liked_count
+
+    batchs = download_num / limit
+
+    puts "Downloading \033[32m#{@download_num}\033[0m posts"
+
+    batchs.times do |i|
+      result = get_photos(limit, i + i*limit) 
+      break if !result
+    end
   end
 
 end
 
-Dir.mkdir("./#{image_dir}") unless File.directory?("./#{image_dir}")
-
-# uncomment next line to download all your liked images
-# download_num = get_liked_count(url)
-
-batchs = download_num / limit
-
-urls = []
-
-puts "Downloading \033[32m#{download_num}\033[0m posts"
-
-batchs.times do |i|
-  get_photos(url, image_dir, limit, i + i*limit)
-end
+tumblr = Tumblr.new(username, api_key, image_dir, limit, download_num)
+tumblr.download
