@@ -37,4 +37,4 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
         
 You can specify two params (username & name of the download directory) directly from the command line like this:
 
-         ruby app.rb username image_dir
+         ruby app.rb username download_dir
