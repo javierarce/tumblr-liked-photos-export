@@ -8,7 +8,7 @@ image_dir    = ARGV[1] || "images"
 limit        = 20  # number of posts requested each time
 download_num = 200 # number of posts to download
 
-class Tumblr
+class TumblrPhotoExport
 
   attr_accessor :username, :api_key, :image_dir, :limit, :download_num, :url
 
@@ -103,9 +103,12 @@ class Tumblr
       result = get_photos(limit, i + i*limit) 
       break if !result
     end
+
+    puts "\033[32m#{"Aaaaand we're done."}\033[0m"
+
   end
 
 end
 
-tumblr = Tumblr.new(username, api_key, image_dir, limit, download_num)
+tumblr = TumblrPhotoExport.new(username, api_key, image_dir, limit, download_num)
 tumblr.download
