@@ -14,27 +14,27 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
 
         https://www.tumblr.com/settings/apps
 
-3. Copy the `OAuth Consumer Key` of the app.  
-4. Add two keys to your bash/zsh:  
+3. Enable the option "Share posts you like" [here](https://www.tumblr.com/settings/dashboard)
+4. Copy the `OAuth Consumer Key` of the app.  
+5. Add two keys to your bash/zsh:  
 
         export TUMBLR_USERNAME="MY_FANTASTIC_TUMBLR_USERNAME"  
         export TUMBLR_API_KEY="MY_DAUNTING_OAUTH_CONSUMER_KEY"  
         
         
-5. Or simply update the `export.rb` file with your details:
+6. Or simply update the `export.rb` file with your details:
         
         # Configuration
         username = "MY_COOL_TUMBLR_USERNAME"
         api_key  = "MY_OH_SO_NICE_OAUTH_CONSUMER_KEY"  
 
-6. Go to the app directory and run:  
+7. Go to the app directory and run:  
 
-        ruby app.rb
+        ruby export.rb
 
-7. Your favorite images from Tumblr will be downloaded to the `image` folder.
+8. Your favorite images from Tumblr will be downloaded to the `image` folder.
 
 
-        
 You can specify two params (username & name of the download directory) directly from the command line like this:
 
-         ruby app.rb username download_dir
+         ruby export.rb username download_dir
