@@ -10,11 +10,12 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
 
         $ git clone git@github.com:javierarce/tumblr-photo-export.git
 
-2. Register a new app:  
+2. Enable the option "Share posts you like" [here](https://www.tumblr.com/settings/dashboard).
+ 
+3. Register a new app:  
 
         https://www.tumblr.com/settings/apps
 
-3. Enable the option "Share posts you like" [here](https://www.tumblr.com/settings/dashboard).
 4. Copy the `OAuth Consumer Key` of the app.  
 5. Add two keys to your bash/zsh:  
 
