@@ -5,7 +5,6 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
 
 ## How to use it
 
-
 1. Clone the repo:  
 
         $ git clone git@github.com:javierarce/tumblr-photo-export.git
@@ -19,22 +18,27 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
 
         export TUMBLR_USERNAME="MY_FANTASTIC_TUMBLR_USERNAME"  
         export TUMBLR_API_KEY="MY_DAUNTING_OAUTH_CONSUMER_KEY"  
-        
-        
+
 5. Or simply update the `export.rb` file with your details:
-        
+
         # Configuration
         username = "MY_COOL_TUMBLR_USERNAME"
         api_key  = "MY_OH_SO_NICE_OAUTH_CONSUMER_KEY"  
 
-6. Go to the app directory and run:  
 
-        ruby app.rb
+6. Generate the url of the publicly exposed likes from a blog
 
-7. Your favorite images from Tumblr will be downloaded to the `image` folder.
+7. Install the `httparty` gem:  
 
+        gem install httparty
 
-        
+8. Go to the app directory and run:  
+
+        ruby export.rb
+
+9. Your favorite images from Tumblr will be downloaded to the `image` folder.
+
 You can specify two params (username & name of the download directory) directly from the command line like this:
 
-         ruby app.rb username download_dir
+         ruby export.rb username download_dir
+
