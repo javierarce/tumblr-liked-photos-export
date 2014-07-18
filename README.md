@@ -46,6 +46,6 @@ You can specify two params (username & name of the download directory) directly 
 [Sergi Meseguer](https://github.com/zigotica)
 
 
-## Hey there, digital Diogenes, do you need to export more?
+## More
 
-Check out the [tumblr-full-backup](https://github.com/zigotica/tumblr-full-backup) repo by [Sergi](https://github.com/zigotica).
+Hey there, digital Diogenes, do you need to export more? Then check out the [tumblr-full-backup](https://github.com/zigotica/tumblr-full-backup) repo by [zigotica](https://github.com/zigotica).
