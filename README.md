@@ -5,7 +5,6 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
 
 ## How to use it
 
-
 1. Clone the repo:  
 
         $ git clone git@github.com:javierarce/tumblr-photo-export.git
@@ -39,3 +38,9 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
 You can specify two params (username & name of the download directory) directly from the command line like this:
 
          ruby export.rb username download_dir
+
+
+## Contributors
+
+[Javier Arce](https://github.com/javierarce)  
+[Sergi Meseguer](https://github.com/zigotica)
