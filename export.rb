@@ -96,7 +96,11 @@ class TumblrPhotoExport
     # download_num = get_liked_count
 
     parsed = 0
-    batchs = (@download_num / @limit) + (@download_num % @limit)
+    rest = @download_num % @limit
+    if rest > 1
+      rest = 1
+    end
+    batchs = (@download_num / @limit) + rest
 
     if (@download_num < @limit)
       batchs = 1
