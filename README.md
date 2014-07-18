@@ -40,7 +40,7 @@ You can specify two params (username & name of the download directory) directly 
          ruby export.rb username download_dir
 
 
-### Contributors
+## Contributors
 
 [Javier Arce](https://github.com/javierarce)  
 [Sergi Meseguer](https://github.com/zigotica)
