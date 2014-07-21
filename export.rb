@@ -110,14 +110,17 @@ class TumblrPhotoExport
     puts "Downloading \033[32m#{@download_num}\033[0m posts"
 
     batchs.times do |i|
+
       offset = i*@limit
+
       if parsed + @limit > @download_num
         @limit = @download_num - parsed
       end
-      puts "step #{i} parsed #{parsed} limit #{@limit} offset #{offset}"
+      
       result = get_photos(@limit, offset)
       parsed += @limit
       break if !result
+
     end
 
     puts "\033[32m#{"Aaaaand we're done, parsed #{parsed} "}\033[0m"
