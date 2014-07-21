@@ -95,7 +95,12 @@ class TumblrPhotoExport
     # uncomment next line to download all your liked images
     # download_num = get_liked_count
 
-    batchs = @download_num / @limit
+    parsed = 0
+    rest = @download_num % @limit
+    if rest > 1
+      rest = 1
+    end
+    batchs = (@download_num / @limit) + rest
 
     if (@download_num < @limit)
       batchs = 1
@@ -105,11 +110,17 @@ class TumblrPhotoExport
     puts "Downloading \033[32m#{@download_num}\033[0m posts"
 
     batchs.times do |i|
-      result = get_photos(@limit, i + i*@limit)
+      offset = i*@limit
+      if parsed + @limit > @download_num
+        @limit = @download_num - parsed
+      end
+      puts "step #{i} parsed #{parsed} limit #{@limit} offset #{offset}"
+      result = get_photos(@limit, offset)
+      parsed += @limit
       break if !result
     end
 
-    puts "\033[32m#{"Aaaaand we're done"}\033[0m"
+    puts "\033[32m#{"Aaaaand we're done, parsed #{parsed} "}\033[0m"
 
   end
 
