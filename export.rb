@@ -5,19 +5,21 @@ require 'httparty'
 api_key      = ENV["TUMBLR_API_KEY"]
 username     = ARGV[0] || ENV["TUMBLR_USERNAME"]
 image_dir    = ARGV[1] || "images"
+offset       = 0
 limit        = 20  # number of posts requested each time
-download_num = 200 # number of posts to download
+download_num = 500 # number of posts to download 
 
 class TumblrPhotoExport
 
   attr_accessor :username, :api_key, :image_dir, :limit, :download_num, :url
 
-  def initialize(username, api_key, image_dir, limit, download_num)
+  def initialize(username, api_key, image_dir, limit, offset, download_num)
 
     @username     = username
     @api_key      = api_key
     @image_dir    = image_dir
     @limit        = limit
+    @offset       = offset
     @download_num = download_num
 
     @url          = "http://api.tumblr.com/v2/blog/#{@username}.tumblr.com/likes?api_key=#{@api_key}"
@@ -96,10 +98,13 @@ class TumblrPhotoExport
     # download_num = get_liked_count
 
     parsed = 0
+
     rest = @download_num % @limit
+
     if rest > 1
       rest = 1
     end
+
     batchs = (@download_num / @limit) + rest
 
     if (@download_num < @limit)
@@ -111,12 +116,12 @@ class TumblrPhotoExport
 
     batchs.times do |i|
 
-      offset = i*@limit
+      offset = @offset + i*@limit
 
       if parsed + @limit > @download_num
         @limit = @download_num - parsed
       end
-      
+
       result = get_photos(@limit, offset)
       parsed += @limit
       break if !result
@@ -129,5 +134,5 @@ class TumblrPhotoExport
 
 end
 
-tumblr = TumblrPhotoExport.new(username, api_key, image_dir, limit, download_num)
+tumblr = TumblrPhotoExport.new(username, api_key, image_dir, limit, offset, download_num)
 tumblr.download
