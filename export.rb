@@ -95,7 +95,7 @@ class TumblrPhotoExport
   def download
 
     # uncomment next line to download all your liked images
-    # download_num = get_liked_count
+    # @download_num = get_liked_count
 
     parsed = 0
 
