@@ -9,7 +9,7 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
 
         $ git clone git@github.com:javierarce/tumblr-photo-export.git
 
-2. Enable the option "Share posts you like" in the settings page of your blog (e.g.: https://www.tumblr.com/settings/blog/javierarce)
+2. Enable the option "Share posts you like" in the settings page of your blog.
  
 3. Register a new app:  
 
