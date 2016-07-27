@@ -22,7 +22,7 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
         export TUMBLR_API_KEY="MY_DAUNTING_OAUTH_CONSUMER_KEY"  
         
         
-Or simply update the `export.rb` file with your details:
+Or simply update the `export.rb` file with your credentials:
         
         # Configuration
         username = "MY_COOL_TUMBLR_USERNAME"
