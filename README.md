@@ -1,4 +1,4 @@
-tumblr-photo-export
+tumblr-liked-photos-export
 =============
 
 Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumblr.
@@ -7,7 +7,7 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
 
 1. Clone the repo:  
 
-        $ git clone git@github.com:javierarce/tumblr-photo-export.git
+        $ git clone git@github.com:javierarce/tumblr-liked-photos-export.git
 
 2. Enable the option "Share posts you like" in the settings page of your blog.
  
