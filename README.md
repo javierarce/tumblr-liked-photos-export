@@ -26,7 +26,9 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
         
         # Configuration
         username = "MY_COOL_TUMBLR_USERNAME"
-        api_key  = "MY_OH_SO_NICE_OAUTH_CONSUMER_KEY"  
+        api_key  = "MY_OH_SO_NICE_OAUTH_CONSUMER_KEY"
+        
+  Don't forget to remove `ENV[ ]` from the variable assignment.
 
 6. Go to the app directory and run:  
 
