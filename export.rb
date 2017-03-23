@@ -3,7 +3,7 @@ require 'httparty'
 
 # Configuration
 api_key      = ENV["TUMBLR_API_KEY"]
-username     = ARGV[0] || ENV["TUMBLR_USERNAME"]
+username     = ARGV[0] || ENV["redroborsomething"]
 image_dir    = ARGV[1] || "images"
 offset       = 0
 limit        = 20  # number of posts requested each time
