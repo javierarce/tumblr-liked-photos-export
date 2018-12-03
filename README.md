@@ -27,8 +27,8 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
         # Configuration
         username = "MY_COOL_TUMBLR_USERNAME"
         api_key  = "MY_OH_SO_NICE_OAUTH_CONSUMER_KEY"
-        
-        PS: Don't forget to remove `ENV[ ]` from the variable assignment.
+
+PS: also don't forget to remove `ENV[ ]` from the variable assignment. 
 
 6. Go to the app directory and run:  
 
@@ -40,6 +40,10 @@ You can specify two params (`username` & `name` of the download directory) direc
 
          ruby export.rb username download_dir
 
+
+## Troubleshoot
+
+If you get the an "Unauthorized" error message, open the URL http://api.tumblr.com/v2/blog/USERNAME.tumblr.com/likes?api_key=API_KEY in your browser (replacing USERNAME and API_KEY with your own values). You should see a list of posts.
 
 ## Contributors
 
