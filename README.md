@@ -16,19 +16,19 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
         https://www.tumblr.com/settings/apps
 
 4. Copy the `OAuth Consumer Key` of the app.  
-5. Add two keys to your bash/zsh:  
+5. Add two keys to your bash/zsh…  
 
         export TUMBLR_USERNAME="MY_FANTASTIC_TUMBLR_USERNAME"  
         export TUMBLR_API_KEY="MY_DAUNTING_OAUTH_CONSUMER_KEY"  
         
         
-  Or simply update the `export.rb` file with your credentials:
+ 5. … or simply update the `export.rb` file with your credentials:
         
         # Configuration
         username = "MY_COOL_TUMBLR_USERNAME"
         api_key  = "MY_OH_SO_NICE_OAUTH_CONSUMER_KEY"
         
-  Don't forget to remove `ENV[ ]` from the variable assignment.
+        PS: Don't forget to remove `ENV[ ]` from the variable assignment.
 
 6. Go to the app directory and run:  
 
