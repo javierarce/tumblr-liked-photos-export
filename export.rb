@@ -7,20 +7,19 @@ username     = ARGV[0] || ENV["TUMBLR_USERNAME"]
 image_dir    = ARGV[1] || "images"
 offset       = 0
 limit        = 20  # number of posts requested each time
-download_num = 500 # number of posts to download 
 
 class TumblrPhotoExport
 
-  attr_accessor :username, :api_key, :image_dir, :limit, :download_num, :url
+  attr_accessor :username, :api_key, :image_dir, :limit, :url
 
-  def initialize(username, api_key, image_dir, limit, offset, download_num)
+  def initialize(username, api_key, image_dir, limit)
 
     @username     = username
     @api_key      = api_key
     @image_dir    = image_dir
     @limit        = limit
-    @offset       = offset
-    @download_num = download_num
+    @download_num = nil
+    @before       = nil
 
     @url          = "http://api.tumblr.com/v2/blog/#{@username}.tumblr.com/likes?api_key=#{@api_key}"
 
@@ -36,17 +35,25 @@ class TumblrPhotoExport
 
   def get_liked_count
 
-    response        = HTTParty.get(@url + "&limit=1&offset=0")
+    response        = HTTParty.get(@url + "&limit=1")
     parsed_response = JSON.parse(response.body)
 
     return parsed_response['response']['liked_count']
 
   end
 
-  def get_photos(limit = 0, offset = 0)
+  def get_photos(limit = 0)
 
-    response        = HTTParty.get(@url + "&limit=#{limit}&offset=#{offset}")
+    if @before
+      response = HTTParty.get(@url + "&limit=#{limit}&before=#{@before}")
+    else
+      response = HTTParty.get(@url + "&limit=#{limit}")
+    end
+
     parsed_response = JSON.parse(response.body)
+
+      before = parsed_response['response']['_links']['next']['query_params']['before']
+
 
     # Status of the request
     status_code = parsed_response['meta']['status']
@@ -58,6 +65,8 @@ class TumblrPhotoExport
     end
 
     download_likes(parsed_response['response']['liked_posts'])
+
+    @before = before
 
     return true
 
@@ -94,8 +103,9 @@ class TumblrPhotoExport
 
   def download
 
-    # uncomment next line to download all your liked images
-    # @download_num = get_liked_count
+    @download_num = get_liked_count
+    puts '-'
+    puts @download_num
 
     parsed = 0
 
@@ -116,16 +126,13 @@ class TumblrPhotoExport
 
     batchs.times do |i|
 
-      offset = @offset + i*@limit
-
       if parsed + @limit > @download_num
         @limit = @download_num - parsed
       end
 
-      result = get_photos(@limit, offset)
+      result = get_photos(@limit)
       parsed += @limit
       break if !result
-
     end
 
     puts "\033[32m#{"Aaaaand we're done, parsed #{parsed} "}\033[0m"
@@ -134,5 +141,5 @@ class TumblrPhotoExport
 
 end
 
-tumblr = TumblrPhotoExport.new(username, api_key, image_dir, limit, offset, download_num)
+tumblr = TumblrPhotoExport.new(username, api_key, image_dir, limit)
 tumblr.download
