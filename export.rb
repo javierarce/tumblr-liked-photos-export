@@ -53,8 +53,11 @@ class TumblrPhotoExport
 
     parsed_response = JSON.parse(response.body)
 
+    begin
       before = parsed_response['response']['_links']['next']['query_params']['before']
-
+    rescue Exception => e
+      puts ":( #{e}"
+    end
 
     # Status of the request
     status_code = parsed_response['meta']['status']
