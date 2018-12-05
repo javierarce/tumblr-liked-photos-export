@@ -48,7 +48,11 @@ class TumblrPhotoExport
     response        = HTTParty.get(@url + "&limit=1")
     parsed_response = JSON.parse(response.body)
 
-    if parsed_response['meta']['status'] === 401
+    if parsed_response['meta']['status'] === 403
+      puts "\033[31m#{"ERROR"}\033[0m"
+      puts "Forbidden. Please, enable the 'Share posts you like' option in your tumblr settings"
+      return -1
+    elsif parsed_response['meta']['status'] === 401
       puts "\033[31m#{"ERROR"}\033[0m"
       puts "Unauthorized. Please, check your username and API_KEY"
       return -1
