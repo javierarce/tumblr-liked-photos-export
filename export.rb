@@ -23,6 +23,8 @@ class TumblrPhotoExport
     @url          = "http://api.tumblr.com/v2/blog/#{@username}.tumblr.com/likes?api_key=#{@api_key}"
 
     puts "URL: #{@url}"
+    puts "Username: #{@username}"
+    puts "Image dir: #{@image_dir}"
 
     create_download_dir
 
@@ -107,37 +109,43 @@ class TumblrPhotoExport
 
   def download
 
-    @download_num = get_liked_count
+    begin
+      @download_num = get_liked_count
 
-    parsed = 0
+      parsed = 0
 
-    rest = @download_num % @limit
+      rest = @download_num % @limit
 
-    if rest > 1
-      rest = 1
-    end
-
-    batchs = (@download_num / @limit) + rest
-
-    if (@download_num < @limit)
-      batchs = 1
-      @limit  = @download_num
-    end
-
-    puts "Downloading \033[32m#{@download_num}\033[0m posts"
-
-    batchs.times do |i|
-
-      if parsed + @limit > @download_num
-        @limit = @download_num - parsed
+      if rest > 1
+        rest = 1
       end
 
-      result = get_photos(@limit)
-      parsed += @limit
-      break if !result
-    end
+      batchs = (@download_num / @limit) + rest
 
-    puts "\033[32m#{"Aaaaand we're done, parsed #{parsed} "}\033[0m"
+      if (@download_num < @limit)
+        batchs = 1
+        @limit  = @download_num
+      end
+
+      puts "Downloading \033[32m#{@download_num}\033[0m posts"
+
+      batchs.times do |i|
+
+        if parsed + @limit > @download_num
+          @limit = @download_num - parsed
+        end
+
+        result = get_photos(@limit)
+        parsed += @limit
+        break if !result
+      end
+
+      puts "\033[32m#{"Aaaaand we're done, parsed #{parsed} "}\033[0m"
+
+    rescue Exception => e
+      puts "\033[31m#{"Error: #{e} "}\033[0m"
+      puts "\033[31m#{"Error: #{e.backtrace.inspect} "}\033[0m"
+    end
 
   end
 
