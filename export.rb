@@ -4,8 +4,7 @@ require 'httparty'
 # Configuration
 api_key      = ENV["TUMBLR_API_KEY"]
 username     = ARGV[0] || ENV["TUMBLR_USERNAME"]
-image_dir    = ARGV[1] || "images"
-offset       = 0
+image_dir    = ARGV.count == 2 ? ARGV[1] : "images"
 limit        = 20  # number of posts requested each time
 
 class TumblrPhotoExport
@@ -22,6 +21,8 @@ class TumblrPhotoExport
     @before       = nil
 
     @url          = "http://api.tumblr.com/v2/blog/#{@username}.tumblr.com/likes?api_key=#{@api_key}"
+
+    puts "URL: #{@url}"
 
     create_download_dir
 
@@ -104,8 +105,6 @@ class TumblrPhotoExport
   def download
 
     @download_num = get_liked_count
-    puts '-'
-    puts @download_num
 
     parsed = 0
 
