@@ -4,23 +4,28 @@ require 'httparty'
 # Configuration
 api_key      = ENV["TUMBLR_API_KEY"]
 username     = ARGV[0] || ENV["TUMBLR_USERNAME"]
-image_dir    = ARGV.count == 2 ? ARGV[1] : (ARGV[1] || "images")
+base_dir    = ARGV.count == 2 ? ARGV[1] : (ARGV[1] || "tumblr-likes-export")
 limit        = 20  # number of posts requested each time
 
 class TumblrPhotoExport
 
   attr_accessor :username, :api_key, :image_dir, :limit, :url
 
-  def initialize(username, api_key, image_dir, limit)
+  def initialize(username, api_key, base_dir, limit)
 
-    @username     = username
-    @api_key      = api_key
-    @image_dir    = image_dir
-    @limit        = limit
-    @download_num = nil
-    @before       = nil
+    @username           = username
+    @api_key            = api_key
+    @base_dir           = base_dir
+    @general_posts_dir  = "#{@base_dir}/posts"
+    @images_dir         = "#{@base_dir}/images"
+    @images_posts_dir   = "#{@images_dir}/posts"
+    @videos_dir         = "#{@base_dir}/videos"
+    @videos_posts_dir   = "#{@videos_dir}/posts"
+    @limit              = limit
+    @download_num       = nil
+    @before             = nil
 
-    @url          = "http://api.tumblr.com/v2/blog/#{@username}.tumblr.com/likes?api_key=#{@api_key}"
+    @url              = "http://api.tumblr.com/v2/blog/#{@username}.tumblr.com/likes?api_key=#{@api_key}"
 
 
     puts "\033[32mURL\033[0m"
@@ -39,8 +44,14 @@ class TumblrPhotoExport
 
   def create_download_dir
 
-    Dir.mkdir("./#{@image_dir}") unless File.directory?("./#{@image_dir}")
+    Dir.mkdir("./#{@base_dir}") unless File.directory?("./#{@base_dir}")
+    Dir.mkdir("./#{@general_posts_dir}") unless File.directory?("./#{@general_posts_dir}")
 
+    Dir.mkdir("./#{@images_dir}") unless File.directory?("./#{@images_dir}")
+    Dir.mkdir("./#{@images_posts_dir}") unless File.directory?("./#{@images_posts_dir}")
+
+    Dir.mkdir("./#{@videos_dir}") unless File.directory?("./#{@videos_dir}")
+    Dir.mkdir("./#{@videos_posts_dir}") unless File.directory?("./#{@videos_posts_dir}")
   end
 
   def get_liked_count
@@ -62,7 +73,7 @@ class TumblrPhotoExport
 
   end
 
-  def get_photos(limit = 0)
+  def get_likes(limit = 0)
 
     if @before
       response = HTTParty.get(@url + "&limit=#{limit}&before=#{@before}")
@@ -83,7 +94,7 @@ class TumblrPhotoExport
     status_msg  = parsed_response['meta']['msg']
 
     if status_code != 200
-      puts "\033[91m#{status_msg}\033[0m" 
+      puts "\033[91m#{status_msg}\033[0m"
       return
     end
 
@@ -99,27 +110,75 @@ class TumblrPhotoExport
 
     likes.each do |like|
 
-      photos = like['photos']
+      type = like['type']
 
-      puts "\033[37m#{like['blog_name']}\033[0m" if photos and photos.length > 0
+      puts "\033[37m#{like['blog_name']}\033[0m"
 
-      photos.each do |photo|
+      if type == "photo"
+        save_post(like, @images_posts_dir)
+        download_photo(like)
+      elsif type == "video"
+        save_post(like, @videos_posts_dir)
+        download_video(like)
+      else
+        save_post(like, @general_posts_dir)
+      end
 
-        begin
+    end
 
-          uri = photo['original_size']['url']
-          file = File.basename(uri)
+  end
 
-          File.open("./#{@image_dir}/" + file, "wb") do |f| 
-            puts "   #{uri}"
-            f.write HTTParty.get(uri).parsed_response
-          end
+  def download_photo(like)
 
-        rescue => e
-          puts ":( #{e}"
-        end
+    photos = like['photos']
 
-      end if photos
+    photos.each do |photo|
+
+      uri = photo['original_size']['url']
+      post_id = like['id']
+      download_file(uri, post_id, @images_dir)
+
+    end if photos
+  end
+
+  def download_video(like)
+    uri = like['video_url']
+
+    post_id = like['id']
+    download_file(uri, post_id, @videos_dir)
+
+  end
+
+  def download_file(uri, post_id, directory)
+
+    begin
+
+      file = "#{post_id}-#{File.basename(uri)}"
+
+      File.open("./#{directory}/" + file, "wb") do |f|
+        puts "   #{uri}"
+        f.write HTTParty.get(uri).parsed_response
+      end
+
+    rescue => e
+      puts ":( #{e}"
+    end
+
+  end
+
+  def save_post(like, save_dir)
+
+    post_id = like['id']
+
+    begin
+      file = "#{post_id}-post.json"
+
+      File.open("./#{save_dir}/" + file, "wb") do |f|
+        puts "   Post #{post_id}"
+        f.write(JSON.pretty_generate(like))
+      end
+    rescue => e
+      puts ":( #{e}"
     end
 
   end
@@ -164,7 +223,7 @@ class TumblrPhotoExport
         @limit = @download_num - parsed
       end
 
-      result = get_photos(@limit)
+      result = get_likes(@limit)
       parsed += @limit
       break if !result
     end
@@ -175,5 +234,5 @@ class TumblrPhotoExport
 
 end
 
-tumblr = TumblrPhotoExport.new(username, api_key, image_dir, limit)
+tumblr = TumblrPhotoExport.new(username, api_key, base_dir, limit)
 tumblr.start
