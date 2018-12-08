@@ -3,7 +3,7 @@ tumblr-liked-photos-export
 
 Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumblr.
 
-## How to use it
+## Installation
 
 1. Clone the repo:  
 
@@ -31,28 +31,34 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
         username = "MY_COOL_TUMBLR_USERNAME"
         api_key  = "MY_OH_SO_NICE_OAUTH_CONSUMER_KEY"
 
-8. Go to the app directory and run:  
+## Usage
 
-        ruby export.rb
+1. Go to the app directory and run:  
 
-9. Your favorite images from Tumblr will be downloaded to the `image` folder.
+       ruby export.rb
 
-You can specify two params (`username` & `name` of the download directory) directly from the command line like this:
+Your favorite images from Tumblr will be downloaded to the folder `images`.
 
-         ruby export.rb username download_dir
+Optionally, you can specify a `username` param:
+
+    ruby export.rb username
+
+Or a `username` and a `name` for the download directory:
+
+    ruby export.rb username download_dir
 
 ## Output
 
 This is what it looks like when it runs:
 
 ```
-$ ruby export.rb your-username
+$ ruby export.rb username
 
 URL
-http://api.tumblr.com/v2/blog/your-username.tumblr.com/likes?api_key=API_KEY
+http://api.tumblr.com/v2/blog/username.tumblr.com/likes?api_key=API_KEY
 
 USERNAME
-your-username
+username
 
 DIR
 images
