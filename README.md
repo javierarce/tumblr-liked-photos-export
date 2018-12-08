@@ -31,8 +31,6 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
         username = "MY_COOL_TUMBLR_USERNAME"
         api_key  = "MY_OH_SO_NICE_OAUTH_CONSUMER_KEY"
 
-PS: also don't forget to remove `ENV[ ]` from the variable assignment. 
-
 8. Go to the app directory and run:  
 
         ruby export.rb
@@ -49,8 +47,9 @@ This is what it looks like when it runs:
 
 ```
 $ ruby export.rb your-username
+
 URL
-http://api.tumblr.com/v2/blog/your-username.tumblr.com/likes?api_key=ASDF
+http://api.tumblr.com/v2/blog/your-username.tumblr.com/likes?api_key=API_KEY
 
 USERNAME
 your-username
@@ -59,21 +58,22 @@ DIR
 images
 
 Downloading 1234 posts
+
 blog-a
    https://66.media.tumblr.com/8262342342318fcaaae94770923093/tumblr_klmsadflkldsk1_500.jpg
 blog-b
-	https://66.media.tumblr.com/8262342342318fcaaae94770923093/tumblr_klmsadflkldsk1_500.jpg
-	https://66.media.tumblr.com/8262342342318fcaaae94770923093/tumblr_klmsadflkldsk1_500.jpg
+   https://66.media.tumblr.com/8262342342318fcaaae94770923093/tumblr_klmsadflkldsk1_500.jpg
+   https://66.media.tumblr.com/8262342342318fcaaae94770923093/tumblr_klmsadflkldsk1_500.jpg
 blog-c
   https://66.media.tumblr.com/8262342342318fcaaae94770923093/tumblr_klmsadflkldsk1_500.jpg
 ...
 ```
 
-## Troubleshoot
+## Troubleshooting
 
-If you get the an "Unauthorized" error message, open the URL http://api.tumblr.com/v2/blog/USERNAME.tumblr.com/likes?api_key=API_KEY in your browser (replacing USERNAME and API_KEY with your own values). You should see a list of posts.
+- If you get the an `Unauthorized` error message, open the URL http://api.tumblr.com/v2/blog/USERNAME.tumblr.com/likes?api_key=API_KEY in your browser (replacing USERNAME and API_KEY with your own values). You should see a list of posts.
 
-If you get the error `cannot load such file -- httparty`, use `gem` to install dependencies.
+- If you get the error `cannot load such file -- httparty`, use `gem` to install dependencies.
 
 ## Contributors
 
