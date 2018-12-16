@@ -17,7 +17,7 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
  
 4. Register a new app:  
 
-        https://www.tumblr.com/settings/apps
+        https://www.tumblr.com/oauth/apps
 
 5. Copy the `OAuth Consumer Key` of the app.  
 6. Add two keys to your bash/zsh…  
