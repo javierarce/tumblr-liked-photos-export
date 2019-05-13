@@ -1,5 +1,5 @@
-tumblr-liked-photos-export
-=============
+Tumblr Liked Photos Export
+==========================
 
 Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumblr.
 
