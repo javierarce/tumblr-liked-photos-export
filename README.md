@@ -20,7 +20,7 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
         https://www.tumblr.com/oauth/apps
 
 5. Copy the `OAuth Consumer Key` of the app.  
-6. How you have two options:
+6. Now you have two options:
 
 - Add two keys to your bash/zsh: 
 
