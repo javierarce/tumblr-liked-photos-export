@@ -20,12 +20,14 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
         https://www.tumblr.com/oauth/apps
 
 5. Copy the `OAuth Consumer Key` of the app.  
-6. Add two keys to your bash/zsh…  
+6. How you have two options:
+
+- Add two keys to your bash/zsh: 
 
         export TUMBLR_USERNAME="MY_FANTASTIC_TUMBLR_USERNAME"  
         export TUMBLR_API_KEY="MY_DAUNTING_OAUTH_CONSUMER_KEY"  
-               
-7. … or simply update the `export.rb` file with your credentials:
+
+- Or simply update the `export.rb` file with your credentials:
         
         # Configuration
         username = "MY_COOL_TUMBLR_USERNAME"
@@ -75,11 +77,17 @@ blog-c
 ...
 ```
 
+## Rate limits
+
+Newly registered consumers are rate limited to 1,000 requests per hour, and 5,000 requests per day. If your application requires more requests for either of these periods, you'll need request a rate limit removal on the app (there's a link for that in the app directory page).
+
 ## Troubleshooting
 
 - If you get the an `Unauthorized` error message, open the URL http://api.tumblr.com/v2/blog/USERNAME.tumblr.com/likes?api_key=API_KEY in your browser (replacing USERNAME and API_KEY with your own values). You should see a list of posts.
 
 - If you get the error `cannot load such file -- httparty`, use `gem` to install dependencies.
+
+- It seems that old keys (before the Automattic era?) always return an `Unauthorized` error… the solution for this problem is to create a new app.
 
 ## Contributors
 
