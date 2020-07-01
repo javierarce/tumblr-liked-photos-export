@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'httparty'
+require 'fileutils'
 
 # Configuration
 api_key      = ENV["TUMBLR_API_KEY"]
@@ -33,14 +34,14 @@ class TumblrPhotoExport
     puts @image_dir
     puts "\n"
 
-    create_download_dir
-
   end
 
-  def create_download_dir
+  def create_download_dir(blog_name)
+    full_dir = "./#{@image_dir}/#{blog_name}"
 
-    Dir.mkdir("./#{@image_dir}") unless File.directory?("./#{@image_dir}")
+    FileUtils.mkdir_p(full_dir) unless File.directory?(full_dir)
 
+    full_dir
   end
 
   def get_liked_count
@@ -100,17 +101,23 @@ class TumblrPhotoExport
     likes.each do |like|
 
       photos = like['photos']
+      blog_name = like['blog_name']
 
-      puts "\033[37m#{like['blog_name']}\033[0m" if photos and photos.length > 0
+      date = Date.parse(like['date']) #Format: 2020-07-01 00:18:18 GMT
+      date_formatted = "#{date}"
+
+      puts "\033[37m#{blog_name}\033[0m" if photos and photos.length > 0
 
       photos.each do |photo|
 
         begin
-
+          download_dir = create_download_dir(blog_name)
           uri = photo['original_size']['url']
-          file = File.basename(uri)
+          
+          basename = File.basename(uri)
+          file = "#{date_formatted}_#{basename}"
 
-          File.open("./#{@image_dir}/" + file, "wb") do |f| 
+          File.open("./#{download_dir}/" + file, "wb") do |f| 
             puts "   #{uri}"
             f.write HTTParty.get(uri).parsed_response
           end

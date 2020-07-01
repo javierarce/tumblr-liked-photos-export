@@ -1,2 +1,5 @@
 .DS_Store
 images
+*.png
+*.jpg
+*.gif
