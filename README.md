@@ -9,18 +9,23 @@ Export the images from your [liked posts](https://www.tumblr.com/likes) in Tumbl
 
         $ git clone git@github.com:javierarce/tumblr-liked-photos-export.git
 
-2. Install dependencies:
+2. Make sure you have bundler installed:  
 
-        $ gem install httparty
+        gem install bundler
 
-3. Enable the option "Share posts you like" in the settings page of your blog.
+3. Install dependencies:
+
+        $ bundle install
+
+4. Enable the option "Share posts you like" in the settings page of your blog.
+        https://www.tumblr.com/settings/blog/<YOUR_BLOG>
  
-4. Register a new app:  
+5. Register a new app:  
 
         https://www.tumblr.com/oauth/apps
 
-5. Copy the `OAuth Consumer Key` of the app.  
-6. Now you have two options:
+6. Copy the `OAuth Consumer Key` of the app.  
+7. Now you have two options:
 
 - Add two keys to your bash/zsh: 
 
@@ -39,7 +44,8 @@ Go to the app directory and run:
 
     ruby export.rb
 
-Your favorite images from Tumblr will be downloaded to the folder `images`.
+Your favorite images from Tumblr will be downloaded to the blog folder under `images`.
+Each photo is appended with the post date to make it easier to see like the blog's timeline.
 
 Optionally, you can specify a `username` param:
 
@@ -93,6 +99,7 @@ Newly registered consumers are rate limited to 1,000 requests per hour, and 5,00
 
 [Javier Arce](https://github.com/javierarce)  
 [Sergi Meseguer](https://github.com/zigotica)
+[Rodrigo Soares](https://github.com/rsoarespaula)
 
 ## More
 
