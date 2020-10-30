@@ -52,6 +52,10 @@ class TumblrPhotoExport
       puts "\033[31m#{"ERROR"}\033[0m"
       puts "Forbidden. Please, enable the 'Share posts you like' option in your tumblr settings"
       return -1
+    elsif parsed_response['meta']['status'] === 404
+      puts "\033[31m#{"ERROR"}\033[0m"
+      puts "Username does not exist. Please, check your username and API_KEY"
+      return -1
     elsif parsed_response['meta']['status'] === 401
       puts "\033[31m#{"ERROR"}\033[0m"
       puts "Unauthorized. Please, check your username and API_KEY"
@@ -109,8 +113,9 @@ class TumblrPhotoExport
 
           uri = photo['original_size']['url']
           file = File.basename(uri)
+          filename = 'tumblr=' + like['blog_name'] + ' ' + file.to_s
 
-          File.open("./#{@image_dir}/" + file, "wb") do |f| 
+          File.open("./#{@image_dir}/" + filename, "wb") do |f|
             puts "   #{uri}"
             f.write HTTParty.get(uri).parsed_response
           end
